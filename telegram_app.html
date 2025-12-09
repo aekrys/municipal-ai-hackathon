@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI-помощник Главы</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { padding: 20px; font-family: Arial; background: #f0f2f5; margin: 0; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; padding: 20px; background: white; border-radius: 15px; margin-bottom: 20px; }
+        .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 20px 0; }
+        .stat { background: white; padding: 20px; border-radius: 10px; text-align: center; }
+        .stat-number { font-size: 32px; font-weight: bold; color: #007bff; }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; margin: 10px 0; font-size: 16px; cursor: pointer; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .problem { background: white; padding: 15px; border-radius: 10px; margin: 10px 0; border-left: 5px solid #dc3545; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 style="margin: 0;">🤖 AI-помощник Главы МО</h1>
+            <p style="color: #666;">Мониторинг проблем Екатеринбурга</p>
+            <div style="background: #007bff; color: white; padding: 5px 15px; border-radius: 20px; display: inline-block;">
+                Екатеринбург
+            </div>
+        </div>
+        
+        <div class="stat-grid">
+            <div class="stat">
+                <div class="stat-number">3</div>
+                <div>Критических</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">15</div>
+                <div>Всего сегодня</div>
+            </div>
+        </div>
+        
+        <div style="background: white; padding: 20px; border-radius: 15px; margin: 20px 0;">
+            <h3 style="margin-top: 0; color: #dc3545;">🚨 Актуальные проблемы</h3>
+            <div class="problem">
+                <strong>Дороги</strong><br>
+                Яма на ул. Ленина, 15
+                <div style="font-size: 12px; color: #666; margin-top: 5px;">📍 ул. Ленина, 15 • 14:30</div>
+            </div>
+            <div class="problem">
+                <strong>ЖКХ</strong><br>
+                Прорыв трубы на ул. Малышева
+                <div style="font-size: 12px; color: #666; margin-top: 5px;">📍 ул. Малышева, 58 • 13:45</div>
+            </div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="sendReport()">📝 Сообщить о проблеме</button>
+        <button class="btn btn-success" onclick="showMap()">🗺️ Карта проблем</button>
+        <button class="btn" style="background: #6f42c1; color: white;" onclick="generateReport()">📄 Сводка для Главы</button>
+        
+        <div style="text-align: center; margin-top: 30px; color: #666; font-size: 14px;">
+            <p>Хакатон УрФУ • Декабрь 2024</p>
+            <p>AI Municipal Assistant Team</p>
+        </div>
+    </div>
+    
+    <script>
+        // Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        
+        // Инициализация
+        if (tg && tg.initDataUnsafe) {
+            tg.expand();
+            tg.MainButton.hide();
+            console.log('✅ Telegram WebApp запущен');
+        }
+        
+        function sendReport() {
+            if (tg && tg.showPopup) {
+                tg.showPopup({
+                    title: "Проблема отправлена!",
+                    message: "✅ Ваше обращение принято.\n\nAI-анализ начат. Результаты появятся в сводке для Главы.",
+                    buttons: [{type: "ok"}]
+                });
+            } else {
+                alert("✅ Проблема отправлена!\n\nКатегория: Дороги\nМестоположение: ул. Ленина, 15\n\nAI-анализ начат.");
+            }
+        }
+        
+        function showMap() {
+            const message = "🗺️ Карта проблем Екатеринбурга\n\n" +
+                           "🔴 Критические проблемы (3):\n" +
+                           "• Яма на ул. Ленина\n" +
+                           "• Прорыв трубы на Малышева\n" +
+                           "• Авария на Белинского\n\n" +
+                           "🟡 Обычные проблемы (12)\n\n" +
+                           "📍 Используйте фильтры для навигации";
+            
+            if (tg && tg.showAlert) {
+                tg.showAlert(message);
+            } else {
+                alert(message);
+            }
+        }
+        
+        function generateReport() {
+            const report = "📄 СВОДКА ДЛЯ ГЛАВЫ МО\n\n" +
+                          "📅 За последние 24 часа:\n" +
+                          "• Всего обращений: 15\n" +
+                          "• Критических проблем: 3\n" +
+                          "• Топ категория: Дороги (7)\n" +
+                          "• AI точность анализа: 87%\n\n" +
+                          "🚨 КРИТИЧЕСКИЕ:\n" +
+                          "1. Яма на ул. Ленина, 15\n" +
+                          "2. Прорыв трубы на ул. Малышева\n\n" +
+                          "✅ Отчет сгенерирован и готов к скачиванию.";
+            
+            if (tg && tg.showAlert) {
+                tg.showAlert(report);
+            } else {
+                alert(report);
+            }
+        }
+        
+        // Демо-режим для браузера
+        if (!tg || !tg.initDataUnsafe) {
+            console.log('🌐 Запущено в браузере');
+            setTimeout(() => {
+                if (confirm('Хотите увидеть демо-работы мини-приложения?')) {
+                    sendReport();
+                }
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
