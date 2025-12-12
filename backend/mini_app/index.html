@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-помощник Главы Екатеринбурга</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Шапка -->
+        <div class="header">
+            <h1>🤖 AI-помощник Главы Екатеринбурга</h1>
+            <p>Мониторинг проблем муниципального образования в реальном времени</p>
+            <div class="city-badge">Екатеринбург</div>
+
+            <!-- Статус соединения -->
+            <div id="connection-status" class="connection-status">
+                <span class="status-dot connected"></span>
+                <span class="status-text">Загрузка данных...</span>
+            </div>
+        </div>
+
+        <!-- Навигация -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="switchTab('dashboard')">
+                📊 Дашборд
+            </button>
+            <button class="nav-tab" onclick="switchTab('clusters')">
+                🎯 Кластеры
+            </button>
+            <button class="nav-tab" onclick="switchTab('how-it-works')">
+                🔄 Как работает
+            </button>
+        </div>
+
+        <!-- Дашборд -->
+        <div id="dashboard-tab" class="tab-content active">
+            <!-- Статистика -->
+            <div class="stats-grid">
+                <div class="stat-card critical">
+                    <div class="stat-number" id="critical-count">0</div>
+                    <div class="stat-label">Критические</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-count">0</div>
+                    <div class="stat-label">Всего сегодня</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-number" id="last-hour-count">0</div>
+                    <div class="stat-label">За последний час</div>
+                </div>
+                <div class="stat-card info">
+                    <div class="stat-number" id="avg-priority">0.0</div>
+                    <div class="stat-label">Средний приоритет</div>
+                </div>
+            </div>
+
+            <!-- Актуальные проблемы -->
+            <div class="section">
+                <div class="section-title">
+                    <h2>🔥 Актуальные проблемы Екатеринбурга</h2>
+                    <div class="filter-controls">
+                        <select id="time-filter" onchange="loadDashboard()">
+                            <option value="24h">За 24 часа</option>
+                            <option value="7d">За 7 дней</option>
+                        </select>
+                        <button onclick="loadDashboard()" class="btn-refresh">🔄 Обновить</button>
+                    </div>
+                </div>
+                <div id="problems-list" class="problems-container">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Загрузка данных...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Топ категорий -->
+            <div class="section">
+                <div class="section-title">
+                    <h2>🏆 Топ категорий проблем</h2>
+                </div>
+                <div id="categories-list" class="categories-list">
+                    <!-- Заполнится JavaScript -->
+                </div>
+            </div>
+
+            <!-- Отчеты -->
+            <div class="section">
+                <div class="section-title">
+                    <h2>📄 Отчеты</h2>
+                </div>
+                <div class="report-actions">
+                    <button class="btn btn-success" onclick="generateReport()">
+                        📊 Сгенерировать отчет
+                    </button>
+                    <button class="btn btn-info" onclick="viewLastReport()">
+                        👁️ Посмотреть последний
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кластеры -->
+        <div id="clusters-tab" class="tab-content">
+            <div class="section">
+                <div class="section-title">
+                    <h2>🎯 Кластеры проблем</h2>
+                    <button onclick="loadClusters()" class="btn-refresh">🔄 Обновить</button>
+                </div>
+                <p class="section-subtitle">Повторяющиеся проблемы по категориям и местоположению</p>
+
+                <div id="clusters-list" class="clusters-container">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Загрузка кластеров...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Вкладка "Как работает" -->
+        <div id="how-it-works-tab" class="tab-content">
+            <div class="section">
+                <div class="section-title">
+                    <h2>🔄 Как работает AI-помощник</h2>
+                    <span class="city-badge">Автоматически</span>
+                </div>
+
+                <!-- Процесс работы -->
+                <div class="workflow">
+                    <!-- Шаг 1 -->
+                    <div class="workflow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-icon">📰</div>
+                            <h3>Сбор данных из 15+ источников</h3>
+                            <p>Система автоматически собирает информацию из:</p>
+                            <ul class="source-list">
+                                <li><strong>Социальные сети:</strong> Telegram, ВКонтакте</li>
+                                <li><strong>Новостные порталы:</strong> Е1.ru, 66.ru</li>
+                                <li><strong>Официальные источники:</strong> Сайт администрации</li>
+                                <li><strong>Специализированные каналы:</strong> ДТП, МЧС, полиция</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Шаг 2 -->
+                    <div class="workflow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-icon">🤖</div>
+                            <h3>AI-анализ GigaChat</h3>
+                            <p>Нейросеть анализирует каждую новость:</p>
+                            <ul class="source-list">
+                                <li><strong>Определяет</strong> категорию (Дороги, ЖКХ, Транспорт...)</li>
+                                <li><strong>Оценивает</strong> критичность (0-5)</li>
+                                <li><strong>Анализирует</strong> тональность</li>
+                                <li><strong>Извлекает</strong> ключевую информацию</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Шаг 3 -->
+                    <div class="workflow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-icon">📊</div>
+                            <h3>Визуализация в реальном времени</h3>
+                            <p>Результаты отображаются в интерактивном дашборде:</p>
+                            <ul class="source-list">
+                                <li><strong>Дашборд:</strong> Статистика и актуальные проблемы</li>
+                                <li><strong>Кластеры:</strong> Группировка схожих проблем</li>
+                                <li><strong>Оповещения:</strong> Автоматические уведомления</li>
+                                <li><strong>Отчеты:</strong> Ежедневные сводки</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Технические особенности -->
+                <div class="section" style="margin-top: 30px;">
+                    <h3>⚙️ Технические особенности</h3>
+                    <div class="tech-features">
+                        <div class="tech-feature">
+                            <div class="feature-icon">⚡</div>
+                            <div class="feature-text">
+                                <strong>Реальное время:</strong> Обновление каждые 30 секунд
+                            </div>
+                        </div>
+                        <div class="tech-feature">
+                            <div class="feature-icon">🧠</div>
+                            <div class="feature-text">
+                                <strong>AI-анализ:</strong> GigaChat обрабатывает новости
+                            </div>
+                        </div>
+                        <div class="tech-feature">
+                            <div class="feature-icon">📈</div>
+                            <div class="feature-text">
+                                <strong>Аналитика:</strong> Кластеризация и тренды
+                            </div>
+                        </div>
+                        <div class="tech-feature">
+                            <div class="feature-icon">🔒</div>
+                            <div class="feature-text">
+                                <strong>Безопасность:</strong> Только официальные источники
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Уведомления -->
+    <div id="notification-container"></div>
+
+    <script>
+        // Telegram WebApp
+        const tg = window.Telegram.WebApp;
+
+        // Текущая вкладка
+        let currentTab = 'dashboard';
+
+        // WebSocket соединение
+        let ws = null;
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализация Telegram WebApp
+            if (tg) {
+                tg.expand();
+                tg.MainButton.hide();
+                console.log('✅ Telegram WebApp активирован');
+            }
+
+            // Загружаем начальные данные
+            loadDashboard();
+
+            // Подключаем WebSocket
+            connectWebSocket();
+
+            // Обновляем данные каждые 30 секунд
+            setInterval(loadDashboard, 30000);
+        });
+
+        // Функция для переключения вкладок
+        function switchTab(tabName) {
+            currentTab = tabName;
+
+            // Скрываем все вкладки
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Убираем active у всех кнопок
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Показываем выбранную вкладку
+            const activeTab = document.getElementById(`${tabName}-tab`);
+            if (activeTab) {
+                activeTab.classList.add('active');
+            }
+
+            // Активируем кнопку
+            const activeBtn = document.querySelector(`.nav-tab:nth-child(${tabName === 'dashboard' ? 1 : tabName === 'clusters' ? 2 : 3})`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+
+            // Загружаем данные для вкладки
+            if (tabName === 'dashboard') {
+                loadDashboard();
+            } else if (tabName === 'clusters') {
+                loadClusters();
+            }
+        }
+
+        // WebSocket подключение
+        function connectWebSocket() {
+            const wsUrl = 'ws://localhost:8000/ws';
+
+            try {
+                ws = new WebSocket(wsUrl);
+                updateConnectionStatus('connecting');
+
+                ws.onopen = function() {
+                    console.log('✅ WebSocket подключен');
+                    updateConnectionStatus('connected');
+
+                    // Запрашиваем текущую статистику
+                    ws.send(JSON.stringify({ type: 'get_stats' }));
+                };
+
+                ws.onmessage = function(event) {
+                    try {
+                        const data = JSON.parse(event.data);
+                        console.log('📩 WebSocket сообщение:', data);
+                        handleWebSocketMessage(data);
+                    } catch (e) {
+                        console.error('❌ Ошибка парсинга WebSocket:', e);
+                    }
+                };
+
+                ws.onclose = function() {
+                    console.log('🔌 WebSocket отключен');
+                    updateConnectionStatus('disconnected');
+
+                    // Попытка переподключения через 3 секунды
+                    setTimeout(connectWebSocket, 3000);
+                };
+
+                ws.onerror = function(error) {
+                    console.error('❌ WebSocket ошибка:', error);
+                    updateConnectionStatus('disconnected');
+                };
+
+            } catch (error) {
+                console.error('❌ Ошибка создания WebSocket:', error);
+                updateConnectionStatus('disconnected');
+            }
+        }
+
+        function handleWebSocketMessage(data) {
+            switch (data.type) {
+                case 'alert':
+                    showAlert(data.data);
+                    break;
+                case 'new_problem':
+                    addNewProblem(data.data);
+                    break;
+                case 'stats_update':
+                    updateStats(data.data);
+                    break;
+                case 'current_stats':
+                    updateStats(data.data);
+                    break;
+                case 'pong':
+                    // Игнорируем pong
+                    break;
+            }
+        }
+
+        function updateConnectionStatus(status) {
+            const statusElement = document.getElementById('connection-status');
+            if (!statusElement) return;
+
+            const dot = statusElement.querySelector('.status-dot');
+            const text = statusElement.querySelector('.status-text');
+
+            statusElement.className = `connection-status ${status}`;
+            dot.className = `status-dot ${status}`;
+
+            switch (status) {
+                case 'connected':
+                    text.textContent = 'В реальном времени';
+                    break;
+                case 'disconnected':
+                    text.textContent = 'Нет соединения';
+                    break;
+                case 'connecting':
+                    text.textContent = 'Подключение...';
+                    break;
+            }
+        }
+
+        // Загрузка дашборда
+        async function loadDashboard() {
+            try {
+                console.log('🔄 Загрузка дашборда...');
+
+                const timeframe = document.getElementById('time-filter').value;
+                const response = await fetch(`http://localhost:8000/api/stats?timeframe=${timeframe}`);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ошибка: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('✅ Данные получены:', data);
+
+                // Обновляем статистику
+                document.getElementById('critical-count').textContent = data.critical || 0;
+                document.getElementById('total-count').textContent = data.total || 0;
+                document.getElementById('last-hour-count').textContent = data.total_last_hour || 0;
+                document.getElementById('avg-priority').textContent = data.avg_priority ? data.avg_priority.toFixed(1) : "0.0";
+
+                // Показываем проблемы
+                displayProblems(data.critical_issues || []);
+
+                // Показываем категории
+                displayCategories(data.by_category || []);
+
+            } catch (error) {
+                console.error('❌ Ошибка загрузки дашборда:', error);
+                showNotification('Не удалось загрузить данные. Используем демо-данные.', 'warning');
+                showDemoData();
+            }
+        }
+
+        // Загрузка всех проблем
+        async function loadAllProblems() {
+            try {
+                const response = await fetch('http://localhost:8000/api/problems?limit=50');
+                const data = await response.json();
+
+                if (data.problems && data.problems.length > 0) {
+                    displayProblems(data.problems);
+                }
+            } catch (error) {
+                console.error('❌ Ошибка загрузки проблем:', error);
+            }
+        }
+
+        // Загрузка кластеров
+        async function loadClusters() {
+            try {
+                const response = await fetch('http://localhost:8000/api/clusters');
+                const data = await response.json();
+
+                if (data.clusters && data.clusters.length > 0) {
+                    displayClusters(data.clusters);
+                } else {
+                    document.getElementById('clusters-list').innerHTML = `
+                        <div class="empty-state">
+                            <div style="font-size: 48px; color: #ccc;">📊</div>
+                            <p>Кластеры не найдены</p>
+                            <p class="empty-subtitle">Система автоматически группирует повторяющиеся проблемы</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('❌ Ошибка загрузки кластеров:', error);
+                document.getElementById('clusters-list').innerHTML = `
+                    <div class="error-state">
+                        <div style="font-size: 48px; color: #ff6b6b;">❌</div>
+                        <p>Не удалось загрузить кластеры</p>
+                        <button onclick="loadClusters()" class="btn-retry">Повторить</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Функция для отображения проблем
+        function displayProblems(problems) {
+            const container = document.getElementById('problems-list');
+
+            if (!problems || problems.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div style="font-size: 48px; color: #ccc;">✅</div>
+                        <p>Нет проблем за выбранный период</p>
+                        <p class="empty-subtitle">Система мониторинга работает в штатном режиме</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            problems.forEach(problem => {
+                const time = formatTime(problem.time || problem.created_at);
+                const priority = problem.priority || problem.metadata?.criticality || 0;
+                const priorityClass = priority >= 2 ? 'critical' : (priority >= 1 ? 'warning' : 'normal');
+                const sentiment = problem.sentiment || problem.metadata?.sentiment || 'neutral';
+                const location = problem.location || 'Екатеринбург';
+                const sourceUrl = problem.metadata?.source_url || problem.source_info || '';
+
+                html += `
+                    <div class="problem-card ${priorityClass}">
+                        <div class="problem-header">
+                            <span class="problem-category">${problem.category || 'Без категории'}</span>
+                            <span class="problem-criticality">${getCriticalityIcon(priority)}</span>
+                            <span class="problem-time">${time}</span>
+                        </div>
+
+                        <div class="problem-summary">
+                            <strong>${problem.text || 'Без описания'}</strong>
+                        </div>
+
+                        <div class="problem-details">
+                            <div class="problem-location">
+                                <span>📍 ${location}</span>
+                                ${problem.metadata?.time_info ? `<span class="time-mentioned">🕐 ${problem.metadata.time_info}</span>` : ''}
+                            </div>
+
+                            <div class="problem-meta">
+                                <span class="sentiment ${sentiment}">
+                                    ${getSentimentIcon(sentiment)} ${sentiment}
+                                </span>
+
+                                ${sourceUrl ? `
+                                <a href="${sourceUrl}"
+                                   target="_blank"
+                                   class="source-link"
+                                   title="Перейти к источнику">
+                                    🔗 Источник
+                                </a>
+                                ` : ''}
+
+                                ${problem.metadata?.original_preview ? `
+                                <button onclick="showFullText('${problem.metadata.original_preview.replace(/'/g, "\\'")}')"
+                                        class="btn-more">
+                                    📝 Подробнее
+                                </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Функция для отображения категорий
+        function displayCategories(categories) {
+            const container = document.getElementById('categories-list');
+
+            if (!categories || categories.length === 0) {
+                container.innerHTML = '<p class="empty">Нет данных по категориям</p>';
+                return;
+            }
+
+            let html = '';
+            categories.forEach(cat => {
+                const percentage = cat.count > 0 ? Math.min(100, (cat.count / 10) * 100) : 0;
+
+                html += `
+                    <div class="category-item">
+                        <div class="category-info">
+                            <span class="category-name">${cat.category}</span>
+                            <span class="category-count">${cat.count}</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Функция для отображения кластеров
+        function displayClusters(clusters) {
+            const container = document.getElementById('clusters-list');
+
+            let html = '';
+            clusters.forEach(cluster => {
+                html += `
+                    <div class="cluster-card severity-${cluster.severity}">
+                        <div class="cluster-header">
+                            <span class="cluster-category">${cluster.category}</span>
+                            <span class="cluster-location">📍 ${cluster.location}</span>
+                            <span class="cluster-frequency">${cluster.frequency} повторений</span>
+                        </div>
+
+                        <div class="cluster-examples">
+                            <strong>Примеры проблем:</strong>
+                            <ul>
+                                ${cluster.examples.map(example =>
+                                    `<li>${example.substring(0, 80)}...</li>`
+                                ).join('')}
+                            </ul>
+                        </div>
+
+                        <div class="cluster-footer">
+                            <span class="cluster-severity">
+                                ${cluster.icon || '⚠️'} Серьезность: ${cluster.severity}/3
+                            </span>
+                            <button onclick="viewClusterProblems('${cluster.category}', '${cluster.location}')"
+                                    class="btn-view">
+                                Показать все
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Добавление новой проблемы через WebSocket
+        function addNewProblem(problem) {
+            const container = document.getElementById('problems-list');
+
+            // Если контейнер пустой или показывает "нет проблем", очищаем
+            if (container.innerHTML.includes('empty-state')) {
+                container.innerHTML = '';
+            }
+
+            const time = formatTime(problem.timestamp || problem.time);
+            const priorityClass = problem.priority >= 2 ? 'critical' : 'warning';
+            const sentiment = problem.sentiment || 'neutral';
+
+            const problemHtml = `
+                <div class="problem-card ${priorityClass} new-problem">
+                    <div class="problem-header">
+                        <span class="problem-category">${problem.category}</span>
+                        <span class="problem-criticality">${getCriticalityIcon(problem.priority)}</span>
+                        <span class="problem-time">${time} (новое)</span>
+                    </div>
+
+                    <div class="problem-summary">
+                        <strong>${problem.text}</strong>
+                    </div>
+
+                    <div class="problem-details">
+                        <div class="problem-location">
+                            <span>📍 ${problem.location}</span>
+                        </div>
+
+                        <div class="problem-meta">
+                            <span class="sentiment ${sentiment}">
+                                ${getSentimentIcon(sentiment)}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Добавляем в начало
+            container.insertAdjacentHTML('afterbegin', problemHtml);
+
+            // Удаляем класс "новое" через 5 секунд
+            setTimeout(() => {
+                const newElement = container.querySelector('.new-problem');
+                if (newElement) {
+                    newElement.classList.remove('new-problem');
+                }
+            }, 5000);
+
+            // Показываем уведомление
+            showNotification(`Новая проблема: ${problem.category} - ${problem.location}`, 'info');
+        }
+
+        // Обновление статистики
+        function updateStats(stats) {
+            if (stats.total_last_hour !== undefined) {
+                document.getElementById('last-hour-count').textContent = stats.total_last_hour;
+            }
+            if (stats.critical_last_hour !== undefined) {
+                document.getElementById('critical-count').textContent = stats.critical_last_hour;
+            }
+        }
+
+        // Показать демо-данные
+        function showDemoData() {
+            console.log('📱 Показываем демо-данные...');
+
+            // Демо статистика
+            document.getElementById('critical-count').textContent = "3";
+            document.getElementById('total-count').textContent = "15";
+            document.getElementById('last-hour-count').textContent = "5";
+            document.getElementById('avg-priority').textContent = "1.8";
+
+            // Демо проблемы
+            const demoProblems = [
+                {
+                    text: "Большая яма на проезжей части ул. Ленина, движение затруднено",
+                    category: "Дороги",
+                    location: "ул. Ленина, 15",
+                    priority: 2,
+                    sentiment: "негативная",
+                    metadata: {
+                        criticality: 2,
+                        time_info: "сегодня утром",
+                        source_url: "https://t.me/ekb_news",
+                        original_preview: "На улице Ленина образовалась яма размером 1x1 метр..."
+                    }
+                },
+                {
+                    text: "Прорыв трубы на улице Малышева, подтопление проезжей части",
+                    category: "ЖКХ",
+                    location: "ул. Малышева, 58",
+                    priority: 3,
+                    sentiment: "негативная",
+                    metadata: {
+                        criticality: 3,
+                        time_info: "2 часа назад",
+                        source_url: "https://66.ru",
+                        original_preview: "В результате прорыва трубы затоплена проезжая часть..."
+                    }
+                }
+            ];
+
+            displayProblems(demoProblems);
+
+            // Демо категории
+            const demoCategories = [
+                { category: "Дороги", count: 7 },
+                { category: "ЖКХ", count: 4 },
+                { category: "Благоустройство", count: 3 },
+                { category: "Транспорт", count: 1 }
+            ];
+
+            displayCategories(demoCategories);
+        }
+
+        // Генерация отчета
+        async function generateReport() {
+            try {
+                showNotification('⏳ Генерирую отчет...', 'info');
+
+                const response = await fetch('http://localhost:8000/api/generate_report');
+                const data = await response.json();
+
+                if (data.success) {
+                    const userChoice = confirm("Отчет сгенерирован!\n\nНажмите ОК, чтобы открыть в браузере.\nОтмена - чтобы скачать файл.");
+
+                    if (userChoice) {
+                        window.open(`http://localhost:8000/api/view_report/${data.filename}`, '_blank');
+                        showNotification('📄 Отчет открыт в новой вкладке', 'success');
+                    } else {
+                        window.open(`http://localhost:8000${data.download_url}`, '_blank');
+                        showNotification('⬇️ Отчет скачивается...', 'success');
+                    }
+                } else {
+                    throw new Error(data.message);
+                }
+
+            } catch (error) {
+                console.error('❌ Ошибка генерации отчета:', error);
+                showNotification('⚠️ Не удалось сгенерировать отчет', 'error');
+            }
+        }
+
+        // Просмотр последнего отчета
+        async function viewLastReport() {
+            showNotification('📂 Ищу последний отчет...', 'info');
+
+            // В демо-режиме показываем пример
+            const reportContent = `
+                ============================================================
+                ОТЧЕТ AI-ПОМОЩНИКА ГЛАВЫ ЕКАТЕРИНБУРГА
+                Сгенерирован: ${new Date().toLocaleString('ru-RU')}
+                ============================================================
+
+                📊 СТАТИСТИКА:
+                  • Проблем за 24 часа: 15
+                  • Критических проблем: 3
+                  • Активных кластеров: 2
+
+                🏆 ТОП-5 КАТЕГОРИЙ ПРОБЛЕМ:
+                  • Дороги: 7 проблем
+                  • ЖКХ: 4 проблемы
+                  • Благоустройство: 3 проблемы
+                  • Транспорт: 1 проблема
+
+                🚨 КРИТИЧЕСКИЕ СИТУАЦИИ:
+                  1. Прорыв трубы на ул. Малышева, 58
+                  2. Большая яма на ул. Ленина, 15
+                  3. Отключение света в районе Уралмаш
+
+                🎯 РЕКОМЕНДАЦИИ:
+                  1. Проверить критические проблемы
+                  2. Усилить мониторинг частых категорий
+                  3. Координировать работу служб
+
+                ============================================================
+            `;
+
+            const newWindow = window.open('', '_blank');
+            newWindow.document.write(`
+                <html>
+                <head>
+                    <title>Демо-отчет</title>
+                    <style>
+                        body { font-family: Arial; padding: 20px; background: #f5f5f5; }
+                        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+                        .header { background: #007bff; color: white; padding: 20px; border-radius: 5px; margin-bottom: 20px; text-align: center; }
+                        pre { background: #f8f9fa; padding: 20px; border-radius: 5px; white-space: pre-wrap; font-size: 14px; line-height: 1.5; }
+                        .actions { margin-top: 20px; text-align: center; }
+                        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin: 0 5px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="header">
+                            <h2>📄 Демо-отчет AI-помощника</h2>
+                            <p>В демо-режиме показываются тестовые данные</p>
+                        </div>
+                        <pre>${reportContent}</pre>
+                        <div class="actions">
+                            <button onclick="window.print()">🖨️ Печать</button>
+                            <button onclick="window.close()">Закрыть</button>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `);
+        }
+
+        // Показать полный текст
+        function showFullText(text) {
+            alert(text);
+        }
+
+        // Показать проблемы кластера
+        function viewClusterProblems(category, location) {
+            alert(`Показать все проблемы: ${category} в ${location}`);
+            // В реальной реализации здесь можно загрузить и отфильтровать проблемы
+        }
+
+        // Показать оповещение
+        function showAlert(alert) {
+            showNotification(`🚨 ${alert.title}: ${alert.category} - ${alert.location}`, 'alert');
+        }
+
+        // Вспомогательные функции
+        function getCriticalityIcon(criticality) {
+            const icons = ['🟢', '🟡', '🟠', '🔴', '🟣', '⚫'];
+            return icons[Math.min(criticality, 5)] || '⚪';
+        }
+
+        function getSentimentIcon(sentiment) {
+            const icons = {
+                'негативная': '😠',
+                'нейтральная': '😐',
+                'позитивная': '😊'
+            };
+            return icons[sentiment] || '😐';
+        }
+
+        function formatTime(dateString) {
+            if (!dateString) return 'недавно';
+
+            try {
+                const date = new Date(dateString);
+                const now = new Date();
+                const diff = Math.floor((now - date) / 1000);
+
+                if (diff < 60) return 'только что';
+                if (diff < 3600) return `${Math.floor(diff / 60)} мин. назад`;
+                if (diff < 86400) return `${Math.floor(diff / 3600)} ч. назад`;
+                return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+            } catch {
+                return dateString;
+            }
+        }
+
+        // Показать уведомление
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notification-container');
+            if (!container) return;
+
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <strong>${type === 'alert' ? '🚨' : type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️'}</strong>
+                    <span>${message}</span>
+                </div>
+                <button onclick="this.parentElement.remove()" class="notification-close">×</button>
+            `;
+
+            container.appendChild(notification);
+
+            // Автоматическое удаление через 5 секунд
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

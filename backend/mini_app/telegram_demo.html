@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI-помощник Главы МО</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { padding: 20px; font-family: Arial; max-width: 800px; margin: 0 auto; }
+        .card { background: white; padding: 20px; border-radius: 10px; margin: 10px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .critical { border-left: 5px solid red; }
+        .warning { border-left: 5px solid orange; }
+        .btn { padding: 12px; background: #007bff; color: white; border: none; border-radius: 5px; width: 100%; margin: 5px 0; }
+        .stat { display: inline-block; width: 45%; padding: 10px; margin: 5px; background: #f0f0f0; text-align: center; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🤖 AI-помощник Главы МО</h1>
+    <p style="color: #666;">Демо-версия для хакатона</p>
+
+    <div class="card">
+        <h3>📊 Статистика за сегодня</h3>
+        <div class="stat" style="background: #ffcccc;">
+            <div style="font-size: 24px; font-weight: bold;">3</div>
+            <div style="font-size: 12px;">Критические</div>
+        </div>
+        <div class="stat">
+            <div style="font-size: 24px; font-weight: bold;">15</div>
+            <div style="font-size: 12px;">Всего</div>
+        </div>
+    </div>
+
+    <div class="card critical">
+        <h3>🚨 Актуальные проблемы</h3>
+        <div style="padding: 10px; background: #fff5f5; border-radius: 5px; margin: 5px 0;">
+            <strong>Дороги</strong><br>
+            Большая яма на ул. Ленина, 15
+        </div>
+        <div style="padding: 10px; background: #fff5f5; border-radius: 5px; margin: 5px 0;">
+            <strong>ЖКХ</strong><br>
+            Прорыв трубы на ул. Малышева
+        </div>
+    </div>
+
+    <button class="btn" onclick="reportProblem()">📝 Сообщить о проблеме</button>
+    <button class="btn" style="background: #28a745;" onclick="generateReport()">📄 Сводка для Главы</button>
+    <button class="btn" style="background: #6c757d;" onclick="showMap()">🗺️ Карта проблем</button>
+
+    <div style="margin-top: 20px; text-align: center; color: #666; font-size: 12px;">
+        Система мониторинга муниципальных проблем<br>
+        Екатеринбург • AI-анализ в реальном времени
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.MainButton.hide();
+
+        function reportProblem() {
+            tg.showPopup({
+                title: "Сообщить о проблеме",
+                message: "Опишите проблему, которую вы обнаружили:",
+                buttons: [
+                    {id: "roads", text: "🚧 Дороги", type: "default"},
+                    {id: "housing", text: "🏘️ ЖКХ", type: "default"},
+                    {id: "cancel", text: "Отмена", type: "cancel"}
+                ]
+            }).then(result => {
+                if (result.button_id && result.button_id !== "cancel") {
+                    tg.showPopup({
+                        title: "Успешно!",
+                        message: "Ваша проблема отправлена. AI-анализ начат.",
+                        buttons: [{type: "ok"}]
+                    });
+                }
+            });
+        }
+
+        function generateReport() {
+            tg.showPopup({
+                title: "Сводка для Главы",
+                message: "📊 Отчет сгенерирован\n• Критических: 3\n• Всего: 15\n• Топ проблема: Дороги\n\nОтчет готов к скачиванию.",
+                buttons: [{type: "ok"}]
+            });
+        }
+
+        function showMap() {
+            tg.showPopup({
+                title: "Карта проблем Екатеринбурга",
+                message: "На карте отмечены:\n• 🔴 3 критических проблемы\n• 🟡 12 обычных проблем\n\nИспользуйте фильтры для навигации.",
+                buttons: [{type: "ok"}]
+            });
+        }
+
+        // Показываем информацию о системе
+        setTimeout(() => {
+            tg.showAlert("👋 Добро пожаловать в систему мониторинга!\n\nВсе данные обновляются в реальном времени.");
+        }, 1000);
+    </script>
+</body>
+</html>

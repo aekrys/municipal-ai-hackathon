@@ -1,0 +1,192 @@
+{
+  "status": "success",
+  "analysis_time": 1765399680.9675317,
+  "file_analyzed": "../data/ekb_news.txt",
+  "news_processed": 10,
+  "analyses_count": 12,
+  "results": [
+    {
+      "original_text_preview": "Исеть прячут в трубы Сейчас реку в районе УГМК Арены засыпали булыжниками, а течение пустили по трубам. Бюджет-2026 усиливает социальную поддержку и р...",
+      "source_url": "https://t.me/te_online_ru",
+      "parse_time": "2025-12-11 01:46:06",
+      "news_index": 2,
+      "text_length": 2761
+    },
+    {
+      "category": "Безопасность",
+      "sub_category": "дТП",
+      "criticality": 2,
+      "sentiment": "негативная",
+      "emotion": "тревога/опасность",
+      "street": "Космонавтов",
+      "house": "2",
+      "problem_type": "авария с пострадавшими",
+      "resourсe": "https://www.ural-region.ru/news/society/187708/",
+      "parsetime": "2025-12-05 01:16:13",
+      "original_text_preview": "Ленинский районный суд арестовал обвиняемого по делу о крупном хищении Как сообщили в пресс-службе судов, директор автономной некоммерческой организац...",
+      "source_url": "https://t.me/incekb",
+      "parse_time": "2025-12-11 01:46:09",
+      "news_index": 3,
+      "text_length": 2081
+    },
+    {
+      "category": "Другое",
+      "sub_category": null,
+      "criticality": 0,
+      "sentiment": "нейтральная",
+      "emotion": "нейтрально",
+      "street": null,
+      "house": null,
+      "problem_type": "потеря багажа",
+      "resourсe": "https://ostorozhno-novosti.tatarstan.tv/news/v-koltsove-poteryali-bagazh-pryamo-na-vzletnoy-polose/",
+      "parsetime": "2025-12-05 01:16:13",
+      "original_text_preview": "Ленинский районный суд арестовал обвиняемого по делу о крупном хищении Как сообщили в пресс-службе судов, директор автономной некоммерческой организац...",
+      "source_url": "https://t.me/incekb",
+      "parse_time": "2025-12-11 01:46:09",
+      "news_index": 3,
+      "text_length": 2081
+    },
+    {
+      "original_text_preview": "Новости Екатеринбурга и Свердловской области | Е1.ру «Верните мой 2021-й» Автохамы атаковали Солнечный. Фото, на которые больно смотреть Погода в Екб ...",
+      "source_url": "https://www.e1.ru",
+      "parse_time": "2025-12-11 01:46:53",
+      "news_index": 4,
+      "text_length": 515
+    },
+    {
+      "original_text_preview": "В «Баден-Баден» рассказали, когда откроется термальный комплекс на месте ТЦ «Комсомолл» Татьяна Ким стала единственным владельцем Wildberries Уральски...",
+      "source_url": "https://66.ru",
+      "parse_time": "2025-12-11 01:47:03",
+      "news_index": 5,
+      "text_length": 633
+    },
+    {
+      "category": "Транспорт",
+      "sub_category": "ДТП и нарушения ПДД",
+      "criticality": 2,
+      "sentiment": "негативная",
+      "emotion": "тревога/опасность",
+      "street": "автомобильная дорога в Зианчуринском районе",
+      "house": null,
+      "problem_type": "бегство от полиции, управление ТС без прав и в состоянии опьянения",
+      "resourсe": "https://www.tatar-inform.ru/news/society/pyanyy-voditel-bez-prav-popytalsya-skrytsya-ot-pogoni-na-treh-kolyah/",
+      "parsetime": "2025-12-07 10:23:08",
+      "original_text_preview": "Пьяный водитель без прав пытался скрыться от погони на трёх колёсах от автоинспекторов в Башкортостане На автодороге в Зианчуринском районе инспекторы...",
+      "source_url": "https://t.me/guobddrus",
+      "parse_time": "2025-12-11 01:47:09",
+      "news_index": 6,
+      "text_length": 6244
+    },
+    {
+      "category": "Безопасность",
+      "sub_category": null,
+      "criticality": 2,
+      "sentiment": "негативная",
+      "emotion": "тревога/опасность",
+      "street": "Иркутский район",
+      "house": "посёлок Добролет",
+      "problem_type": "угон автомобиля, бегство от полиции",
+      "resourсe": "https://auto.mail.ru/news/11096/",
+      "parsetime": "2025-12-07 10:23:08",
+      "original_text_preview": "Пьяный водитель без прав пытался скрыться от погони на трёх колёсах от автоинспекторов в Башкортостане На автодороге в Зианчуринском районе инспекторы...",
+      "source_url": "https://t.me/guobddrus",
+      "parse_time": "2025-12-11 01:47:09",
+      "news_index": 6,
+      "text_length": 6244
+    },
+    {
+      "category": "Ошибка анализа",
+      "sentiment": "neutral",
+      "priority": 0,
+      "summary": "Не удалось проанализировать: (URL('https://gigachat.devices.sberbank.ru/api/v1/",
+      "original_text_preview": "На перекрёстке проспект Космонавтов - улица Машиностроителей произошло ДТП. В районе аварии образова...",
+      "source_url": "https://t.me/dtpichp_ekb",
+      "parse_time": "2025-12-11 01:47:12",
+      "news_index": 7,
+      "text_length": 1212,
+      "error": "(URL('https://gigachat.devices.sberbank.ru/api/v1/chat/completions'), 429, b'{\"status\":429,\"message\":\"Too Many Requests\"}\\n', Headers({'server': 'SynGX', 'date': 'Wed, 10 Dec 2025 20:48:07 GMT', 'content-type': 'application/json; charset=utf-8', 'content-length': '45', 'connection': 'keep-alive', 'x-request-id': '0def7527-9c26-46be-bc1e-b82a517fdff7', 'x-session-id': '95534e9c-0849-4fca-8eb5-ef79afdcd90b', 'allow': 'GET, POST', 'strict-transport-security': 'max-age=31536000; includeSubDomains'}))"
+    },
+    {
+      "category": "Безопасность",
+      "sub_category": "насилие",
+      "criticality": 3,
+      "sentiment": "негативная",
+      "emotion": "гнев",
+      "street": null,
+      "house": null,
+      "problem_type": "избиение",
+      "resourсe": "https://www.kommersant.ru/doc/4976706",
+      "parsetime": "2025-12-05 01:16:13",
+      "original_text_preview": "Российская модель обвинила в избиении турецкого бизнесмена и его спутницу. Мария Авдиенко сейчас живет в Турции. 18 ноября её пригласил на свой день р...",
+      "source_url": "https://t.me/ENews112",
+      "parse_time": "2025-12-11 01:47:15",
+      "news_index": 8,
+      "text_length": 4905
+    },
+    {
+      "category": "Другое",
+      "sub_category": null,
+      "criticality": 4,
+      "sentiment": "негативная",
+      "emotion": "раздражение",
+      "street": "Эрмитаж",
+      "house": null,
+      "problem_type": "повреждение имущества",
+      "resourсe": "https://www.kommersant.ru/doc/4976706",
+      "parsetime": "2025-12-05 01:16:13",
+      "original_text_preview": "Российская модель обвинила в избиении турецкого бизнесмена и его спутницу. Мария Авдиенко сейчас живет в Турции. 18 ноября её пригласил на свой день р...",
+      "source_url": "https://t.me/ENews112",
+      "parse_time": "2025-12-11 01:47:15",
+      "news_index": 8,
+      "text_length": 4905
+    },
+    {
+      "category": "Безопасность",
+      "sub_category": null,
+      "criticality": 0,
+      "sentiment": "позитивная",
+      "emotion": "благодарность",
+      "problem_type": null,
+      "resourсe": "https://t.legkoe.dealermobil.ru/news/7802/",
+      "parsetime": "2025-01-10 12:09:01",
+      "original_text_preview": "В Управлении МВД России по городу Екатеринбургу состоялось торжественное собрание, посвященное Дню Героев Отечества День Героев Отечества отмечается в...",
+      "source_url": "https://t.me/s/policeekb",
+      "parse_time": "2025-12-11 01:47:17",
+      "news_index": 9,
+      "text_length": 7076
+    },
+    {
+      "category": "Ошибка анализа",
+      "sentiment": "neutral",
+      "priority": 0,
+      "summary": "Не удалось проанализировать: (URL('https://gigachat.devices.sberbank.ru/api/v1/",
+      "original_text_preview": "Алексей Орлов вручил Павлу Дацюку почетный знак «За заслуги перед Екатеринбургом» Парта Героя памяти...",
+      "source_url": "https://екатеринбург.рф/news",
+      "parse_time": "2025-12-11 01:47:21",
+      "news_index": 10,
+      "text_length": 338,
+      "error": "(URL('https://gigachat.devices.sberbank.ru/api/v1/chat/completions'), 429, b'{\"status\":429,\"message\":\"Too Many Requests\"}\\n', Headers({'server': 'SynGX', 'date': 'Wed, 10 Dec 2025 20:48:14 GMT', 'content-type': 'application/json; charset=utf-8', 'content-length': '45', 'connection': 'keep-alive', 'x-request-id': 'edae62b7-123b-493d-b0c1-37a37da72ef9', 'x-session-id': 'd83bf46b-3a26-40bb-95d7-3a2d847b75da', 'allow': 'GET, POST', 'strict-transport-security': 'max-age=31536000; includeSubDomains'}))"
+    }
+  ],
+  "summary": {
+    "by_category": {
+      "Без категории": 3,
+      "Безопасность": 4,
+      "Другое": 2,
+      "Транспорт": 1,
+      "Ошибка анализа": 2
+    },
+    "by_priority": {
+      "1": 10,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "by_sentiment": {
+      "positive": 0,
+      "neutral": 5,
+      "negative": 0
+    }
+  }
+}
